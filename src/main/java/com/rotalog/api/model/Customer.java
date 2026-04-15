@@ -2,7 +2,7 @@ package com.rotalog.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import org.locationtech.jts.geom.Point;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,11 +43,20 @@ public class Customer {
     @Column(length = 2)
     private String state;
 
-    private LocalDate birthDate;
-
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;
+
+    /**
+     * Localização geográfica do cliente.
+     * Tipo Point do PostGIS (SRID 4326 = WGS84 / coordenadas GPS).
+     * Exemplo de uso:
+     *   GeometryFactory gf = new GeometryFactory(new PrecisionModel(), 4326);
+     *   Point p = gf.createPoint(new Coordinate(longitude, latitude));
+     *   customer.setLocation(p);
+     */
+    @Column(columnDefinition = "GEOGRAPHY(POINT, 4326)")
+    private Point location;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

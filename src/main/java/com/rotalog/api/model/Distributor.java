@@ -2,6 +2,7 @@ package com.rotalog.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.Point;
 import java.time.LocalDateTime;
 
 @Entity
@@ -46,6 +47,13 @@ public class Distributor {
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;
+
+    /**
+     * Localização geográfica do distribuidor.
+     * Tipo Point do PostGIS (SRID 4326 = WGS84 / coordenadas GPS).
+     */
+    @Column(columnDefinition = "GEOGRAPHY(POINT, 4326)")
+    private Point location;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

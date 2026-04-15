@@ -2,6 +2,7 @@ package com.rotalog.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.LineString;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,6 +43,15 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<OrderItem> items = new ArrayList<>();
+
+    /**
+     * Rota de entrega como linha geométrica (sequência de pontos GPS).
+     * Tipo LineString do PostGIS (SRID 4326 = WGS84).
+     * Permite calcular distância total da rota, verificar se ponto
+     * está no trajeto, otimizar rotas, etc.
+     */
+    @Column(columnDefinition = "GEOMETRY(LINESTRING, 4326)")
+    private LineString deliveryRoute;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

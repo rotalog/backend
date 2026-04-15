@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/rotalog/customers")
 @RequiredArgsConstructor
 public class CustomerController {
 
